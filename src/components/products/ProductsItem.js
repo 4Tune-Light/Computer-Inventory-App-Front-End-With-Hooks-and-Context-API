@@ -2,26 +2,29 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { GlobalContext, dispatcher } from '../../context/GlobalState';
+import { GlobalContext } from '../../context/GlobalState';
 
 const ProductsItem = props => {
 	const context = useContext(GlobalContext)
 
-	const [quantityItem, setQuantityItem] = useState(0);
-	const [defaultImage, setDefaultImage] = useState(null);
-
 	const token = localStorage.getItem('token');
 	const username = localStorage.getItem('username');
 	const email = localStorage.getItem('email');
+	const user = {
+		token, username, email
+	}
+
+	const [quantityItem, setQuantityItem] = useState(0);
+	const [defaultImage, setDefaultImage] = useState(null);
 
 	const addOrReduce = e => {
 		e.preventDefault();
 		if (e.target.value === 'add') {
 			setQuantityItem(quantityItem+1);
-			props.addOrReduce(props.item.id, e.target.value, context.user);
+			props.addOrReduce(props.item.id, e.target.value, user);
 		} else {
 			setQuantityItem(quantityItem-1);
-			props.addOrReduce(props.item.id, e.target.value, context.user);
+			props.addOrReduce(props.item.id, e.target.value, user);
 		}
 	}
 

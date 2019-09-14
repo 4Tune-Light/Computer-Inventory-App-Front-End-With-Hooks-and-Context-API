@@ -12,6 +12,9 @@ const EditProducts = props => {
 	const token = localStorage.getItem('token');
 	const username = localStorage.getItem('username');
 	const email = localStorage.getItem('email');
+	const user = {
+		token, username, email
+	}
 
 	const [name, setName] = useState('');
 	const [image, setImage] = useState('');
@@ -62,7 +65,7 @@ const EditProducts = props => {
 			const newData = {
 				name, image, id_category: idCategory, quantity, description
 			}
-			context.productActions.updateProduct(id, newData, context.user);
+			context.productActions.updateProduct(id, newData, user);
 			props.history.replace('/products/' + id)
 		}
 	}

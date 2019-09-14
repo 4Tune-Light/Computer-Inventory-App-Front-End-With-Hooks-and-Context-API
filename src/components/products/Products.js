@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+
 import ProductsItem from './ProductsItem';
 import Title from './Title';
-import {Redirect} from 'react-router-dom';
 import NavigationBar from '../headers/navbar/Navbar';
 
 import { GlobalContext } from '../../context/GlobalState';
@@ -16,7 +16,11 @@ const Products = props => {
 	const token = localStorage.getItem('token');
 	const username = localStorage.getItem('username');
 	const email = localStorage.getItem('email');
+	const user = {
+		token, username, email
+	}
 
+	const [deleted, setDeleted] = useState(false);
 	const [queryState, setQueryState] = useState({
 		search: '%%',
 		sortBy: 'updated_at',
@@ -26,7 +30,8 @@ const Products = props => {
 	});
 	
 	const deleteItem = async (id) => {
-		await context.productActions.deleteProduct(id, context.user);
+		await context.productActions.deleteProduct(id, user);
+		setDeleted(!deleted);
 	}
 
 	const queryString = data => {
@@ -55,7 +60,7 @@ const Products = props => {
 
 	useEffect(() => {
 		getProducts(queryState);
-	}, [queryState]);
+	}, [queryState, deleted]);
 
 	const pageNum = pageNumber();
 	const logged = 	localStorage.getItem('logged') || false;
@@ -65,15 +70,12 @@ const Products = props => {
 			<NavigationBar />
 			<div id="products" className="row justify-content-md-center">
 				<Title callBack={queryString} pagination={pageNum}/>
-
-				
 				{
-					(context.isLoaded && context.product.products.length > 0) ?
+					( context.isLoaded && context.product.products.length > 0 ) ?
 				 	context.product.products.map( item => {
 				 		return <ProductsItem item={item} key={item.id} deleteItem={deleteItem} addOrReduce={addOrReduceQty}/>
 				 	}) : <img className="img-fluid img-size mx-auto" src="https://avanauptown.com/views/site/images/icons/loading.gif" />
 				}
-			
 			</div>
 		</div>
 	)

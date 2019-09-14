@@ -8,8 +8,10 @@ const NavigationBar = props => {
 	const context = useContext(GlobalContext)
 
 	const user = localStorage.getItem('username');
-	const logout = () => {
-		localStorage.clear();
+	
+	const logout = async () => {
+		await localStorage.clear();
+		await context.userActions.logOut();
 		window.location.replace('/login')
 	}
 	

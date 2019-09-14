@@ -14,6 +14,9 @@ const SingleProducts = props => {
 	const token = localStorage.getItem('token');
 	const username = localStorage.getItem('username');
 	const email = localStorage.getItem('email');
+	const user = {
+		token, username, email
+	}
 
 	useEffect(() => {
 		context.productActions.getProduct(id)
@@ -26,7 +29,7 @@ const SingleProducts = props => {
 	}, [context.isLoaded, context.product])
 		
 	const deleteItem = async (id) => {
-		await context.productActions.deleteProduct(id)
+		await context.productActions.deleteSingleProduct(id, user)
 		return (<div><Redirect push to="/products" /></div>)
 	}
 

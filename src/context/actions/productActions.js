@@ -51,7 +51,7 @@ export const addOrReduce = (id, action, user) => {
 				type: 'ADD_OR_REDUCE',
 				payload: action,
 				message: res.data.message
-			}); alert(res.data.message)
+			});
 		})
 		
 }
@@ -62,6 +62,19 @@ export const deleteProduct = (id, user) => {
 		.then(res => {
 			dispatcher.dispatchProduct({
 				type: 'DELETE_PRODUCT',
+				payload: res.data
+			})
+		})
+		.then(() => dispatcher.setIsLoaded(true))
+	
+}
+
+export const deleteSingleProduct = (id, user) => {
+	dispatcher.setIsLoaded(false)
+	axios.delete('/api/products/' + id, {headers: {auth: user.token, username: user.username, email: user.email}})
+		.then(res => {
+			dispatcher.dispatchProduct({
+				type: 'DELETE_SINGLE_PRODUCT',
 				payload: res.data
 			})
 		})

@@ -35,6 +35,11 @@ export default function(state = initState, action) {
 				...state,
 				products: state.products.filter(product => product.id != action.payload.id),
 			}
+		case 'DELETE_SINGLE_PRODUCT':
+			return {
+				...state,
+				products: {},
+			}
 		default:
 			return state;
 	}

@@ -2,8 +2,8 @@ import React, { useState, useReducer, createContext } from 'react';
 import axios from 'axios';
 
 import { getCategories } from './actions/categoryActions';
-import { loginUser, registerUser } from './actions/userActions';
-import { getProducts, getProduct, createProduct, updateProduct, addOrReduce, deleteProduct } 
+import { loginUser, registerUser, logOut } from './actions/userActions';
+import { getProducts, getProduct, createProduct, updateProduct, addOrReduce, deleteProduct, deleteSingleProduct } 
 from './actions/productActions';
 
 
@@ -39,7 +39,8 @@ export const GlobalState = props => {
     createProduct,
     updateProduct,
     addOrReduce,
-    deleteProduct
+    deleteProduct,
+    deleteSingleProduct
   }
 
   const categoryActions = {
@@ -48,7 +49,8 @@ export const GlobalState = props => {
 
   const userActions = {
     loginUser,
-    registerUser
+    registerUser,
+    logOut
   }
 
   // category, user,
